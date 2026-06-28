@@ -1,0 +1,40 @@
+services:
+  transmission-openvpn:
+    container_name: Transmission-OPENVPN
+    image: haugene/transmission-openvpn:${TRANSMISSION_VERSION:-latest}
+    ports:
+      - 13191:9091
+    user: ${PUID:-0}:${PGID:-0}
+    environment:
+      - PUID=${PUID:-0}
+      - PGID=${PGID:-0}
+      - TRANSMISSION_WEB_UI=${TRANSMISSION_WEB_UI:-transmission-web-control}
+      - TRANSMISSION_RPC_AUTHENTICATION_REQUIRED=${TRANSMISSION_AUTHENTICATION_REQUIRED:-False}
+      - TRANSMISSION_RPC_USERNAME=${TRANSMISSION_USERNAME:-transmission}
+      - TRANSMISSION_RPC_PASSWORD=${TRANSMISSION_PASSWORD}
+      - TRANSMISSION_DOWNLOAD_DIR=/mnt/media/downloads
+      - OPENVPN_PROVIDER=${OPENVPN_PROVIDER}
+      - OPENVPN_CONFIG=${OPENVPN_CONFIG_FILE}
+      - OPENVPN_USERNAME=${OPENVPN_USERNAME}
+      - OPENVPN_PASSWORD=${OPENVPN_PASSWORD}
+      - OPENVPN_OPTS=--inactive 4600 --ping 10 --ping-exit 300
+      - LOCAL_NETWORK=${OPENVPN_LOCAL_NETWORK}
+    volumes:
+      - /etc/TZ:/etc/TZ:ro
+      - /etc/localtime:/etc/localtime:ro
+      - ${PATH_APPDATA}/transmission-openvpn/data:/data
+      - ${PATH_APPDATA}/transmission-openvpn/config:/config
+      - ${PATH_MEDIA}:/mnt/media/downloads
+    cap_add:
+      - NET_ADMIN
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+    healthcheck:
+      test: timeout 10s bash -c ':> /dev/tcp/127.0.0.1/9091' || exit 1
+      interval: 10s
+      timeout: 10s
+      retries: 10
+      start_period: 90s
+    restart: unless-stopped

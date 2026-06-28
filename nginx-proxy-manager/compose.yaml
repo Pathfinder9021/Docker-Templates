@@ -1,0 +1,81 @@
+services:
+  nginx-proxy-manager:
+    container_name: Nginx-Proxy-Manager
+    image: jc21/nginx-proxy-manager:${NGINX_VERSION:-latest}
+    user: ${PUID:-0}:${PGID:0}
+    ports:
+       # These ports are in format <host-port>:<container-port>
+      - '6080:80' # Public HTTP Port
+      - '6443:443' # Public HTTPS Port
+      - '6081:81' # Admin Web Port
+      # Add any other Stream port you want to expose
+      # - '21:21' # FTP
+    environment:
+      - PUID=${PUID:-0}
+      - PGID=${PGID:-0}
+      - INITIAL_ADMIN_EMAIL=${NGINX_ADMIN_EMAIL}
+      - INITIAL_ADMIN_PASSWORD=${NGINX_ADMIN_PASSWORD}
+      - DB_MYSQL_HOST=nginx-database
+      - DB_MYSQL_PORT=3306
+      - DB_MYSQL_NAME=${NGINX_DATABASE_SCHEMA:-nginx}
+      - DB_MYSQL_USER=${NGINX_DATABASE_USERNAME:-nginx}
+      - DB_MYSQL_PASSWORD=${NGINX_DATABASE_PASSWORD}
+      # Uncomment this if IPv6 is not enabled on your host
+      # - DISABLE_IPV6='true'
+    volumes:
+      - /etc/TZ:/etc/TZ:ro
+      - /etc/localtime:/etc/localtime:ro
+      - ${PATH_APPDATA}/nginx-proxy-manager/letsencrypt:/etc/letsencrypt:rw
+      - ${PATH_APPDATA}/nginx-proxy-manager/data:/data:rw
+    networks:
+      - app-nginx
+    healthcheck:
+      test: ["CMD", "/usr/bin/check-health"]
+      interval: 10s
+      timeout: 5s
+      start_period: 90s
+    restart: always
+    depends_on:
+      - nginx-database
+
+  nginx-database:
+    container_name: Nginx-Database
+    image: 'jc21/mariadb-aria:latest'
+    user: ${PUID:-0}:${PGID:0}
+    environment:
+      - PUID=${PUID:-0}
+      - PGID=${PGID:-0}
+      - MYSQL_DATABASE=${NGINX_DATABASE_SCHEMA:-nginx}
+      - MYSQL_ROOT_PASSWORD=${NGINX_DATABASE_ROOT_PASSWORD}
+      - MYSQL_USER=${NGINX_DATABASE_USERNAME:-nginx}
+      - MYSQL_PASSWOR=${NGINX_DATABASE_PASSWORD}
+      - MARIADB_AUTO_UPGRADE='1'
+    volumes:
+      - /etc/TZ:/etc/TZ:ro
+      - /etc/localtime:/etc/localtime:ro
+      - ${PATH_APPDATA}/nginx-proxy-manager/database:/var/lib/mysql
+    networks:
+      - app-nginx
+    restart: always
+
+  nginx-certbot:
+    container_name: Nginx-Certbot
+    image: certbot/certbot:latest
+    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
+    user: ${PUID:-0}:${PGID:0}
+    environment:
+      - PUID=${PUID:-0}
+      - PGID=${PGID:-0}
+    volumes:
+      - /etc/TZ:/etc/TZ:ro
+      - /etc/localtime:/etc/localtime:ro
+      - ${PATH_APPDATA}/nginx-proxy-manager/certbot/www:/var/www/certbot:rw
+      - ${PATH_APPDATA}/nginx-proxy-manager/letsencrypt:/etc/letsencrypt:rw
+    networks:
+      - app-nginx
+    restart: always
+
+networks:
+  app-nginx:
+    name: app-nginx
+    driver: bridge

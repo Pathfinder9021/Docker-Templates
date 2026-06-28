@@ -1,0 +1,25 @@
+services:
+  homeassistant:
+    container_name: Home-Assistant
+    image: homeassistant/home-assistant:${HOME_ASSISTANT_VERSION:-latest}
+    ports:
+      - "8123:8123"
+    user: ${PUID:-0}:${PGID:-0}
+    environment:
+      - PUID=${PUID:-0}
+      - PGID=${PGID:-0}
+    volumes:
+      - /etc/TZ:/etc/TZ:ro
+      - /etc/localtime:/etc/localtime:ro
+      - ${PATH_APPDATA}/home-assistant/config:/config
+    cap_add:
+      - NET_ADMIN
+    devices:
+      - /dev/net/tun
+    healthcheck:
+      test: timeout 10s bash -c ':> /dev/tcp/127.0.0.1/8123' || exit 1
+      interval: 10s
+      timeout: 10s
+      retries: 10
+    restart: unless-stopped
+  

@@ -1,0 +1,17 @@
+services:
+  dockhand:
+    container_name: Dockhand
+    image: fnsys/dockhand:${DOCKHAND_VERSION:-latest}
+    ports:
+      - 3000:3000
+    environment:
+      - DISABLE_LOCAL_LOGIN=${DOCKHAND_DISABLE_LOCAL_LOGIN:-False}
+    volumes:
+      - /etc/TZ:/etc/TZ:ro
+      - /etc/localtime:/etc/localtime:ro
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ${PATH_APPDATA}/dockhand:/app/data:rw
+    networks:
+      - app-dockhand
+      - apps
+    restart: always

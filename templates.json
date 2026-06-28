@@ -1,0 +1,148 @@
+{
+  "version": "2",
+  "templates": [
+    {
+      "type": 3,
+      "title": "Audiobookshelf",
+      "description": "",
+      "logo": "https://example.com/wordpress.png",
+      "categories": ["Unknown"],
+      "repository": {
+        "url": "https://github.com/Pathfinder9021/Docker-Templates",
+        "stackfile": "audiobookshelf/compose.yaml"
+      }
+    },
+    {
+      "type": 3,
+      "title": "Authentik",
+      "description": "",
+      "logo": "https://example.com/wordpress.png",
+      "categories": ["Unknown"],
+      "repository": {
+        "url": "https://github.com/Pathfinder9021/Docker-Templates",
+        "stackfile": "authentik/compose.yaml"
+      }
+    },
+    {
+      "type": 3,
+      "title": "BentoPDF",
+      "description": "",
+      "logo": "https://example.com/wordpress.png",
+      "categories": ["Unknown"],
+      "repository": {
+        "url": "https://github.com/Pathfinder9021/Docker-Templates",
+        "stackfile": "bentopdf/compose.yaml"
+      }
+    },
+    {
+      "type": 3,
+      "title": "Dockhand",
+      "description": "",
+      "logo": "https://example.com/wordpress.png",
+      "categories": ["Unknown"],
+      "repository": {
+        "url": "https://github.com/Pathfinder9021/Docker-Templates",
+        "stackfile": "dockhand/compose.yaml"
+      }
+    },
+    {
+      "type": 3,
+      "title": "Gitea",
+      "description": "",
+      "logo": "https://example.com/wordpress.png",
+      "categories": ["Unknown"],
+      "repository": {
+        "url": "https://github.com/Pathfinder9021/Docker-Templates",
+        "stackfile": "gitea/compose.yaml"
+      }
+    },
+    {
+      "type": 3,
+      "title": "Home Assistant",
+      "description": "",
+      "logo": "https://example.com/wordpress.png",
+      "categories": ["Unknown"],
+      "repository": {
+        "url": "https://github.com/Pathfinder9021/Docker-Templates",
+        "stackfile": "home-assistant/compose.yaml"
+      }
+    },
+    {
+      "type": 3,
+      "title": "Homepage",
+      "description": "",
+      "logo": "https://example.com/wordpress.png",
+      "categories": ["Unknown"],
+      "repository": {
+        "url": "https://github.com/Pathfinder9021/Docker-Templates",
+        "stackfile": "homepage/compose.yaml"
+      }
+    },
+    {
+      "type": 3,
+      "title": "Immich",
+      "description": "",
+      "logo": "https://example.com/wordpress.png",
+      "categories": ["Unknown"],
+      "repository": {
+        "url": "https://github.com/Pathfinder9021/Docker-Templates",
+        "stackfile": "immich/compose.yaml"
+      }
+    },
+    {
+      "type": 3,
+      "title": "NGINX Proxy Manager",
+      "description": "",
+      "logo": "https://example.com/wordpress.png",
+      "categories": ["Unknown"],
+      "repository": {
+        "url": "https://github.com/Pathfinder9021/Docker-Templates",
+        "stackfile": "nginx-proxy-manager/compose.yaml"
+      }
+    },
+    {
+      "type": 3,
+      "title": "Nutify",
+      "description": "",
+      "logo": "https://example.com/wordpress.png",
+      "categories": ["Unknown"],
+      "repository": {
+        "url": "https://github.com/Pathfinder9021/Docker-Templates",
+        "stackfile": "nutify/compose.yaml"
+      }
+    },
+    {
+      "type": 3,
+      "title": "Plex",
+      "description": "",
+      "logo": "https://example.com/wordpress.png",
+      "categories": ["Unknown"],
+      "repository": {
+        "url": "https://github.com/Pathfinder9021/Docker-Templates",
+        "stackfile": "plex/compose.yaml"
+      }
+    },
+    {
+      "type": 3,
+      "title": "qBittorrent-ProtonVPN",
+      "description": "",
+      "logo": "https://example.com/wordpress.png",
+      "categories": ["Unknown"],
+      "repository": {
+        "url": "https://github.com/Pathfinder9021/Docker-Templates",
+        "stackfile": "qbittorrent-protonvpn/compose.yaml"
+      }
+    },
+    {
+      "type": 3,
+      "title": "transmission-ProtonVPN",
+      "description": "",
+      "logo": "https://example.com/wordpress.png",
+      "categories": ["Unknown"],
+      "repository": {
+        "url": "https://github.com/Pathfinder9021/Docker-Templates",
+        "stackfile": "transmission-protonvpn/compose.yaml"
+      }
+    }
+  ]
+}

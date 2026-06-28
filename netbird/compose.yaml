@@ -1,0 +1,70 @@
+services:
+  netbird:
+    container_name: Netbird
+    image: netbirdio/netbird-server:latest
+    command: ["--config", "/etc/netbird/config.yaml"]
+    ports:
+      - '8081:80'
+      - '3478:3478/udp'
+    user: ${PUID:-0}:${PGID:-0}
+    environment:
+      - PUID=${PUID:-0}
+      - PGID=${PGID:-0}
+    volumes:
+      - /etc/TZ:/etc/TZ:ro
+      - /etc/localtime:/etc/localtime:ro
+      - ${PATH_APPDATA}/netbird/lib:/var/lib/netbird
+      - ${PATH_APPDATA}/netbird/etc/config.yaml:/etc/netbird/config.yaml
+    networks:
+    - app-netbird
+    - apps
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "500m"
+        max-file: "2"
+    restart: unless-stopped
+         
+  netbird-dashboard:
+    container_name: Netbird-Dashboard
+    image: netbirdio/dashboard:latest
+    ports:
+      - 8080:80
+    user: ${PUID:-0}:${PGID:-0}
+    environment:
+      - PUID=${PUID:-0}
+      - PGID=${PGID:-0}
+      - NETBIRD_MGMT_API_ENDPOINT=${NETBIRD_MGMT_API_ENDPOINT}
+      - NETBIRD_MGMT_GRPC_API_ENDPOINT=${NETBIRD_MGMT_GRPC_API_ENDPOINT}
+      - USE_AUTH0=false
+      - AUTH_AUTHORITY=${NETBIRD_AUTH_AUTHORITY}
+      - AUTH_AUDIENCE=${NETBIRD_AUTH_AUDIENCE}
+      - AUTH_CLIENT_ID=${NETBIRD_AUTH_CLIENT_ID}
+      - AUTH_CLIENT_SECRET=${NETBIRD_AUTH_CLIENT_SECRET}
+      - AUTH_SUPPORTED_SCOPES=${NETBIRD_AUTH_SUPPORTED_SCOPES}
+      - AUTH_REDIRECT_URI=${NETBIRD_AUTH_REDIRECT_URI}
+      - AUTH_SILENT_REDIRECT_URI=${NETBIRD_AUTH_SILENT_REDIRECT_URI}
+      - NGINX_SSL_PORT=443
+      - LETSENCRYPT_DOMAIN=none
+    volumes:
+      - /etc/TZ:/etc/TZ:ro
+      - /etc/localtime:/etc/localtime:ro
+    networks:
+      - app-netbird
+      - apps
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "500m"
+        max-file: "2"
+    restart: unless-stopped
+    depends_on:
+      netbird:
+        condition: service_healthy
+volumes:
+  netbird_data:
+
+networks:
+  app-netbird:
+    name: app-netbird
+    driver: bridge
