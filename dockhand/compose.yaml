@@ -6,12 +6,17 @@ services:
       - 3000:3000
     environment:
       - DISABLE_LOCAL_LOGIN=${DOCKHAND_DISABLE_LOCAL_LOGIN:-False}
+      - DISABLE_WHATS_NEW=${DOCKHAND_DISABLE_WHATS_NEW:-True}
     volumes:
-      - /etc/TZ:/etc/TZ:ro
       - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
       - /var/run/docker.sock:/var/run/docker.sock
       - ${PATH_APPDATA}/dockhand:/app/data:rw
     networks:
       - app-dockhand
-      - apps
     restart: always
+
+networks:
+  app-dockhand:
+    name: app-dockhand
+    driver: bridge

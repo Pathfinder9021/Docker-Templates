@@ -12,8 +12,8 @@ services:
       - VERSION=public
       - PLEX_CLAIM=${PLEX_CLAIM_KEY:-''}
     devices:
-      - /etc/TZ:/etc/TZ:ro
       - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
       - /dev/bus/usb:/dev/bus/usb            # Map host USB bus into the container
       - /dev/dri/renderD128:/dev/dri/renderD128
       - /dev/dri/card0:/dev/dri/card0

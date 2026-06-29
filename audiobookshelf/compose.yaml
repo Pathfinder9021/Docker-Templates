@@ -14,6 +14,8 @@ services:
       - ${PATH_APPDATA}/audiobookshelf/config:/config
       - ${PATH_APPDATA}/audiobookshelf/metadata:/metadata
       - ${PATH_MEDIA}:/mnt/media/books
+    networks:
+      - app-audiobookshelf
     logging:
       driver: json-file
       options:
@@ -25,3 +27,8 @@ services:
       start_period: 20s
       start_interval: 1s
     restart: unless-stopped
+
+networks:
+  app-audiobookshelf:
+    name: app-audiobookshelf
+    driver: bridge

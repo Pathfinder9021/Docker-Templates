@@ -10,8 +10,15 @@ services:
       - PGID=${PGID:-0}
       - HOMEPAGE_ALLOWED_HOSTS=${HOMEPAGE_ALLOWED_HOSTS}
     volumes:
-      - /etc/TZ:/etc/TZ:ro
       - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - ${PATH_APPDATA}/homepage/config:/app/config:rw
+    networks:
+      - app-homepage
     restart: unless-stopped
+
+networks:
+  app-homepage:
+    name: app-homepage
+    driver: bridge

@@ -23,8 +23,8 @@ services:
       # Uncomment this if IPv6 is not enabled on your host
       # - DISABLE_IPV6='true'
     volumes:
-      - /etc/TZ:/etc/TZ:ro
       - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
       - ${PATH_APPDATA}/nginx-proxy-manager/letsencrypt:/etc/letsencrypt:rw
       - ${PATH_APPDATA}/nginx-proxy-manager/data:/data:rw
     networks:
@@ -51,8 +51,8 @@ services:
       - MYSQL_PASSWOR=${NGINX_DATABASE_PASSWORD}
       - MARIADB_AUTO_UPGRADE='1'
     volumes:
-      - /etc/TZ:/etc/TZ:ro
       - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
       - ${PATH_APPDATA}/nginx-proxy-manager/database:/var/lib/mysql
     networks:
       - app-nginx
@@ -67,8 +67,8 @@ services:
       - PUID=${PUID:-0}
       - PGID=${PGID:-0}
     volumes:
-      - /etc/TZ:/etc/TZ:ro
       - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
       - ${PATH_APPDATA}/nginx-proxy-manager/certbot/www:/var/www/certbot:rw
       - ${PATH_APPDATA}/nginx-proxy-manager/letsencrypt:/etc/letsencrypt:rw
     networks:

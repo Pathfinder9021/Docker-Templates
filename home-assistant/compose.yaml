@@ -9,9 +9,11 @@ services:
       - PUID=${PUID:-0}
       - PGID=${PGID:-0}
     volumes:
-      - /etc/TZ:/etc/TZ:ro
       - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
       - ${PATH_APPDATA}/home-assistant/config:/config
+    networks:
+      - app-homeassistant
     cap_add:
       - NET_ADMIN
     devices:
@@ -23,3 +25,7 @@ services:
       retries: 10
     restart: unless-stopped
   
+networks:
+  app-homeassistant:
+    name: app-homeassistant
+    driver: bridge

@@ -44,11 +44,11 @@ services:
     devices:
       - /dev/net/tun:/dev/net/tun
     networks:
-      - app-qbittorrent
+      - app-qbittorrent-protonvpn
       - apps
     restart: unless-stopped
 
 networks:
-  app-qbittorrent:
-    name: app-qbittorrent
+  app-qbittorrent-protonvpn:
+    name: app-qbittorrent-protonvpn
     driver: bridge

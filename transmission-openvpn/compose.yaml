@@ -25,6 +25,8 @@ services:
       - ${PATH_APPDATA}/transmission-openvpn/data:/data
       - ${PATH_APPDATA}/transmission-openvpn/config:/config
       - ${PATH_MEDIA}:/mnt/media/downloads
+    networks:
+      - app-transmission-openvpn
     cap_add:
       - NET_ADMIN
     logging:
@@ -38,3 +40,8 @@ services:
       retries: 10
       start_period: 90s
     restart: unless-stopped
+
+networks:
+  app-transmission-openvpn:
+    name: app-transmission-openvpn
+    driver: bridge

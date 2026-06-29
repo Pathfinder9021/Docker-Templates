@@ -11,13 +11,12 @@ services:
       - PUID=${PUID:-0}
       - PGID=${PGID:-0}
     volumes:
-      - /etc/TZ:/etc/TZ:ro
       - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
       - ${PATH_APPDATA}/netbird/lib:/var/lib/netbird
       - ${PATH_APPDATA}/netbird/etc/config.yaml:/etc/netbird/config.yaml
     networks:
     - app-netbird
-    - apps
     logging:
       driver: "json-file"
       options:
@@ -47,11 +46,10 @@ services:
       - NGINX_SSL_PORT=443
       - LETSENCRYPT_DOMAIN=none
     volumes:
-      - /etc/TZ:/etc/TZ:ro
       - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
     networks:
       - app-netbird
-      - apps
     logging:
       driver: "json-file"
       options:

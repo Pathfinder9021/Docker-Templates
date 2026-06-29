@@ -24,15 +24,17 @@ services:
       - UDEV=1                                   # Enable udev-aware USB detection mode
       - SSL_ENABLED=false                        # true or false, default is false
     volumes:
-      - /etc/TZ:/etc/TZ:ro
       - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
       - /dev:/dev:rw                             # Full device tree access for hardware detection
       - /run/udev:/run/udev:ro  
       - ${PATH_APPDATA}/nutify/logs:/app/nutify/logs           # Application logs
       - ${PATH_APPDATA}/nutify/instance:/app/nutify/instance   # Persistent app data and runtime files
       - ${PATH_APPDATA}/nutify/ssl:/app/ssl                    # SSL certificates and private keys
       - ${PATH_APPDATA}/nutify/nut:/etc/nut                # NUT configuration directory                 # Udev event access for hotplug monitoring
-     # DNS resolvers
+    networks:
+      - app-nutify
+    # DNS resolvers
     dns:
       - 1.1.1.1                                  # Cloudflare DNS
       - 8.8.8.8                                  # Google DNS
@@ -40,3 +42,8 @@ services:
       - timeout:2                                # DNS timeout per query
       - attempts:2                               # Retry count before failure
     restart: unless-stopped
+
+networks:
+  app-nutify:
+    name: app-nutify
+    driver: bridge

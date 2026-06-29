@@ -16,8 +16,8 @@ services:
       #- IMMICH_WORKERS_INCLUDE=${IMMICH_WORKERS_INCLUDE}
       #- IMMICH_WORKERS_EXCLUDE=${IMMICH_WORKERS_EXCLUDE}
     volumes:
-      - /etc/TZ:/etc/TZ:ro
       - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
       - ${PATH_APPDATA}/immich/data:/data
       - ${PATH_MEDIA}:/mnt/media/photos
     networks:
@@ -42,8 +42,8 @@ services:
       - PUID=${PUID:-0}
       - PGID=${PGID:-0}
     volumes:
-      - /etc/TZ:/etc/TZ:ro
       - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
       - ${PATH_APPDATA}/immich/machine-learning/cache:/cache
     networks:
       - app-immich
@@ -64,8 +64,8 @@ services:
       - POSTGRES_INITDB_ARGS='--data-checksums'
       - DB_STORAGE_TYPE='HDD'
     volumes:
-      - /etc/TZ:/etc/TZ:ro
       - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
       - ${PATH_APPDATA}/immich/database:/var/lib/postgresql/data
     networks:
       - app-immich
@@ -82,9 +82,11 @@ services:
       - PUID=${PUID:-0}
       - PGID=${PGID:-0}
     volumes:
-      - /etc/TZ:/etc/TZ:ro
       - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
       - ${PATH_APPDATA}/immich/redis:/data:rw
+    networks:
+      - app-immich
     healthcheck:
       test: redis-cli ping || exit 1
     restart: unless-stopped

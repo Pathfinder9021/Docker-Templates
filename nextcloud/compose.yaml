@@ -20,8 +20,8 @@ services:
       - POSTGRES_PASSWORD=${NEXTCLOUD_DATABASE_PASSWORD} 
       - REDIS_HOST=nextcloud-redis
     volumes:
-      - /etc/TZ:/etc/TZ:ro
       - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
       - ${PATH_APPDATA}/nextcloud/html:/var/www/html:rw
       - ${PATH_APPDATA}/nextcloud/custom_apps:/var/www/html/custom_apps:rw
       - ${PATH_APPDATA}/nextcloud/config:/var/www/html/config:rw
@@ -73,8 +73,8 @@ services:
       - POSTGRES_USER=${NEXTCLOUD_DATABASE_USERNAME:-nextcloud}
       - POSTGRES_PASSWORD=${NEXTCLOUD_DATABASE_PASSWORD}
     volumes:
-      - /etc/TZ:/etc/TZ:ro
       - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
       - ${PATH_APPDATA}/nextcloud/database:/var/lib/postgresql/data
     networks:
       - app-nextcloud
@@ -97,8 +97,8 @@ services:
       - PUID=${PUID:-0}
       - PGID=${PGID:-0}
     volumes:
-      - /etc/TZ:/etc/TZ:ro
       - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
       - ${PATH_APPDATA}/nextcloud/redis:/data:rw
     networks:
       - app-nextcloud
